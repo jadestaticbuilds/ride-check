@@ -14,7 +14,7 @@ A single-file, browser-based app for deciding if it is actually a good day to ri
 ## Try it
 
 - Open `index.html` directly in your browser, or
-- Use the live site: https://georgestriderbuilds.github.io/ride-check/
+- Use the live site: https://jadestaticbuilds.github.io/ride-check/
 
 Allow location on the site, or search a town or city, to get the verdict for that place.
 
