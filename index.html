@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+/* ?view=desktop preview: force desktop theme on narrow screens */
+try {
+  if (new URLSearchParams(location.search).get("view") === "desktop") {
+    document.querySelector('meta[name="viewport"]').setAttribute("content", "width=1280");
+  }
+} catch (e) {}
+</script>
 <meta name="theme-color" content="#17202B">
 <title>Ride check</title>
 <meta name="description" content="Ride check is a free motorcycle ride weather app. Check the current weather, the next 6 hours, the best dry window, wet-road warnings, a ride timer, and bike and gear checklists before you ride.">
@@ -117,6 +125,47 @@ h2{font-size:17px;font-weight:700;margin:28px 2px 10px}
 #gpsBtn{width:100%}
 #search{margin-bottom:12px}
 @media(prefers-reduced-motion:no-preference){#verdict{transition:background .3s}}
+
+/* Desktop theme: responsive scaling only. Phone rendering is untouched.
+   (Tier 5 desktop readiness rule: every future app ships phone first,
+   then its desktop half.) */
+@media (min-width:1024px){
+  main{max-width:1120px;padding:20px 28px 64px}
+  #now .temp{font-size:118px}
+  #now .cond{font-size:26px}
+  /* Verdict and recent-weather panels side by side */
+  #verdict{display:grid;grid-template-columns:1fr 330px;gap:6px 26px;align-items:start}
+  #verdict>*{grid-column:1;min-width:0}
+  #verdict .recent{grid-column:2;grid-row:1/-1;margin-top:0;align-self:start}
+  #verdict .word{font-size:56px}
+  /* Next 6 hours: grid, no horizontal scroll */
+  .strip{display:grid;grid-template-columns:repeat(6,1fr);overflow-x:visible;gap:12px}
+  .hr{flex:none}
+  /* Checklists: two columns */
+  #lists{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;align-items:start}
+  #lists .list{margin-bottom:0!important}
+  /* Departure planner: best and runner-up side by side, note spans full */
+  #departBox{display:grid;grid-template-columns:1fr 1fr;gap:6px 26px;align-items:start}
+  #departBox p:first-child:last-child,#departBox .sub{grid-column:1/-1}
+  /* Slider box: label and slider span full, steppers and result side by side */
+  #departSliderBox{display:grid;grid-template-columns:1fr 1fr;gap:12px 26px;align-items:start}
+  #departSliderBox>label,#departSliderBox>input[type="range"]{grid-column:1/-1}
+  #departSliderBox .srow{margin-bottom:0}
+  /* Saved places list: two columns of place buttons */
+  #savedList{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 16px;align-items:start}
+  #savedList .srow{margin-bottom:0}
+  /* Timer: readout and controls side by side */
+  #timerBox{display:grid;grid-template-columns:auto 1fr;gap:0 28px;align-items:center}
+  #timerBox .sub{grid-column:1/-1}
+  #mapWrap iframe{height:420px}
+}
+@media (min-width:1440px){
+  main{max-width:1240px;padding:24px 36px 72px}
+  #verdict{grid-template-columns:1fr 380px;gap:6px 32px}
+  .strip{gap:16px}
+  #lists,#departSliderBox{gap:20px}
+  #now .temp{font-size:128px}
+}
 </style>
 </head>
 <body>
