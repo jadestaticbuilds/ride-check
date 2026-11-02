@@ -195,6 +195,20 @@ h2{font-size:17px;font-weight:700;margin:28px 2px 10px}
   </section>
   <p class="sub" id="updated"></p>
 
+  <h2>Ride timer</h2>
+  <div class="msg" id="timerBox">
+    <p style="font-size:36px;font-weight:800;margin:0 0 12px" id="elapsed">00:00:00</p>
+    <div class="srow"><button id="startRideBtn" style="flex:1">Start ride</button><button id="stopRideBtn" style="flex:1" disabled>Stop ride</button></div>
+    <p class="sub" id="timerNote" style="margin:10px 2px 0">Timer keeps running if you leave the page.</p>
+  </div>
+
+  <h2>Before you go</h2>
+  <div id="lists"></div>
+  <div class="row">
+    <span class="sub" id="count"></span>
+    <button id="resetBtn">Start new ride</button>
+  </div>
+
   <h2>Next 6 hours</h2>
   <div class="strip" id="strip"></div>
 
@@ -225,19 +239,6 @@ h2{font-size:17px;font-weight:700;margin:28px 2px 10px}
   <div class="srow"><button id="mapBtn" style="flex:1">Show live map</button></div>
   <div id="mapWrap" hidden><iframe id="map" title="Waze live map" loading="lazy" referrerpolicy="no-referrer" style="width:100%;height:340px;border:1px solid var(--line);border-radius:12px;background:var(--card)"></iframe></div>
 
-  <h2>Ride timer</h2>
-  <div class="msg" id="timerBox">
-    <p style="font-size:36px;font-weight:800;margin:0 0 12px" id="elapsed">00:00:00</p>
-    <div class="srow"><button id="startRideBtn" style="flex:1">Start ride</button><button id="stopRideBtn" style="flex:1" disabled>Stop ride</button></div>
-    <p class="sub" id="timerNote" style="margin:10px 2px 0">Timer keeps running if you leave the page.</p>
-  </div>
-
-  <h2>Before you go</h2>
-  <div id="lists"></div>
-  <div class="row">
-    <span class="sub" id="count"></span>
-    <button id="resetBtn">Start new ride</button>
-  </div>
 </main>
 
 <script>
