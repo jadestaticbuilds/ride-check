@@ -3,14 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>
-/* ?view=desktop preview: force desktop theme on narrow screens */
-try {
-  if (new URLSearchParams(location.search).get("view") === "desktop") {
-    document.querySelector('meta[name="viewport"]').setAttribute("content", "width=1280");
-  }
-} catch (e) {}
-</script>
 <meta name="theme-color" content="#17202B">
 <title>Ride check</title>
 <meta name="description" content="Ride check is a free motorcycle ride weather app. Check the current weather, the next 6 hours, the best dry window, wet-road warnings, a ride timer, and bike and gear checklists before you ride.">
@@ -125,47 +117,10 @@ h2{font-size:17px;font-weight:700;margin:28px 2px 10px}
 #gpsBtn{width:100%}
 #search{margin-bottom:12px}
 @media(prefers-reduced-motion:no-preference){#verdict{transition:background .3s}}
-
-/* Desktop theme: responsive scaling only. Phone rendering is untouched.
-   (Tier 5 desktop readiness rule: every future app ships phone first,
-   then its desktop half.) */
-@media (min-width:1024px){
-  main{max-width:1120px;padding:20px 28px 64px}
-  #now .temp{font-size:118px}
-  #now .cond{font-size:26px}
-  /* Verdict and recent-weather panels side by side */
-  #verdict{display:grid;grid-template-columns:1fr 330px;gap:6px 26px;align-items:start}
-  #verdict>*{grid-column:1;min-width:0}
-  #verdict .recent{grid-column:2;grid-row:1/-1;margin-top:0;align-self:start}
-  #verdict .word{font-size:56px}
-  /* Next 6 hours: grid, no horizontal scroll */
-  .strip{display:grid;grid-template-columns:repeat(6,1fr);overflow-x:visible;gap:12px}
-  .hr{flex:none}
-  /* Checklists: two columns */
-  #lists{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;align-items:start}
-  #lists .list{margin-bottom:0!important}
-  /* Departure planner: best and runner-up side by side, note spans full */
-  #departBox{display:grid;grid-template-columns:1fr 1fr;gap:6px 26px;align-items:start}
-  #departBox p:first-child:last-child,#departBox .sub{grid-column:1/-1}
-  /* Slider box: label and slider span full, steppers and result side by side */
-  #departSliderBox{display:grid;grid-template-columns:1fr 1fr;gap:12px 26px;align-items:start}
-  #departSliderBox>label,#departSliderBox>input[type="range"]{grid-column:1/-1}
-  #departSliderBox .srow{margin-bottom:0}
-  /* Saved places list: two columns of place buttons */
-  #savedList{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 16px;align-items:start}
-  #savedList .srow{margin-bottom:0}
-  /* Timer: readout and controls side by side */
-  #timerBox{display:grid;grid-template-columns:auto 1fr;gap:0 28px;align-items:center}
-  #timerBox .sub{grid-column:1/-1}
-  #mapWrap iframe{height:420px}
-}
-@media (min-width:1440px){
-  main{max-width:1240px;padding:24px 36px 72px}
-  #verdict{grid-template-columns:1fr 380px;gap:6px 32px}
-  .strip{gap:16px}
-  #lists,#departSliderBox{gap:20px}
-  #now .temp{font-size:128px}
-}
+</style>
+<style>
+/* prevent text selection popup on mobile tap */
+html,body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none;}
 </style>
 </head>
 <body>
@@ -194,20 +149,6 @@ h2{font-size:17px;font-weight:700;margin:28px 2px 10px}
     <p>Finding your location and the next few hours of weather.</p>
   </section>
   <p class="sub" id="updated"></p>
-
-  <h2>Ride timer</h2>
-  <div class="msg" id="timerBox">
-    <p style="font-size:36px;font-weight:800;margin:0 0 12px" id="elapsed">00:00:00</p>
-    <div class="srow"><button id="startRideBtn" style="flex:1">Start ride</button><button id="stopRideBtn" style="flex:1" disabled>Stop ride</button></div>
-    <p class="sub" id="timerNote" style="margin:10px 2px 0">Timer keeps running if you leave the page.</p>
-  </div>
-
-  <h2>Before you go</h2>
-  <div id="lists"></div>
-  <div class="row">
-    <span class="sub" id="count"></span>
-    <button id="resetBtn">Start new ride</button>
-  </div>
 
   <h2>Next 6 hours</h2>
   <div class="strip" id="strip"></div>
@@ -239,6 +180,19 @@ h2{font-size:17px;font-weight:700;margin:28px 2px 10px}
   <div class="srow"><button id="mapBtn" style="flex:1">Show live map</button></div>
   <div id="mapWrap" hidden><iframe id="map" title="Waze live map" loading="lazy" referrerpolicy="no-referrer" style="width:100%;height:340px;border:1px solid var(--line);border-radius:12px;background:var(--card)"></iframe></div>
 
+  <h2>Ride timer</h2>
+  <div class="msg" id="timerBox">
+    <p style="font-size:36px;font-weight:800;margin:0 0 12px" id="elapsed">00:00:00</p>
+    <div class="srow"><button id="startRideBtn" style="flex:1">Start ride</button><button id="stopRideBtn" style="flex:1" disabled>Stop ride</button></div>
+    <p class="sub" id="timerNote" style="margin:10px 2px 0">Timer keeps running if you leave the page.</p>
+  </div>
+
+  <h2>Before you go</h2>
+  <div id="lists"></div>
+  <div class="row">
+    <span class="sub" id="count"></span>
+    <button id="resetBtn">Start new ride</button>
+  </div>
 </main>
 
 <script>
