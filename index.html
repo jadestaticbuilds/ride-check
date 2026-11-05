@@ -74,13 +74,13 @@ a.btn{flex:1;display:flex;align-items:center;justify-content:center;text-align:c
 #verdict .recent h3{margin:0 0 6px;font-size:14px;letter-spacing:.06em;text-transform:uppercase}
 #verdict .recent p{margin:4px 0;font-size:15px}
 #verdict .recent .advice{font-weight:700}
-#verdict .care-toggle{font-size:13px;padding:6px 12px;border-radius:999px;margin-top:4px}
-#verdict .care-toggle small{font-size:12px;opacity:.9;margin-left:4px}
+#verdict .care-toggle{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font-size:15px;font-weight:700;padding:10px 14px;border-radius:12px;margin-top:12px;background:rgba(255,255,255,.28);border-color:rgba(255,255,255,.6)}
+#verdict .care-toggle small{font-size:13px;font-weight:400;opacity:.95;margin-left:0}
 .sub{color:var(--mut);font-size:14px;margin:10px 2px 0}
 .sub.stale{color:var(--stop);font-weight:700}
 h2{font-size:17px;font-weight:700;margin:28px 2px 10px}
-.strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
-.hr{flex:0 0 82px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,#000 88%,transparent 100%)}
+.hr{flex:0 0 82px;scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .hr b{display:block;font-size:13px;color:var(--mut);font-weight:600}
 .hr .t{font-size:26px;font-weight:700;margin:2px 0}
 .hr small{display:block;color:var(--mut);font-size:12px}
@@ -114,6 +114,13 @@ h2{font-size:17px;font-weight:700;margin:28px 2px 10px}
 .srow input::placeholder{color:var(--mut)}
 #results{margin-bottom:8px}
 #results button{display:block;width:100%;text-align:left;margin-bottom:6px}
+/* Departure slider: a real thumb and track, 44px tall, with endpoint labels. */
+#departSliderBox input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;margin:0;cursor:pointer}
+#departSliderBox input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:rgba(127,140,155,.5)}
+#departSliderBox input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:34px;height:34px;border-radius:50%;background:var(--go);border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35);margin-top:-14px}
+#departSliderBox input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:rgba(127,140,155,.5)}
+#departSliderBox input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;background:var(--go);border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.depart-ends{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-top:2px}
 #gpsBtn{width:100%}
 #search{margin-bottom:12px}
 @media(prefers-reduced-motion:no-preference){#verdict{transition:background .3s}}
@@ -161,6 +168,7 @@ html,body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;us
   <div class="msg" id="departSliderBox" style="margin-top:12px">
     <label for="departRange" style="font-size:14px;color:var(--mut)">Leave in <b id="departLabel">0 hours (now)</b></label>
     <input type="range" id="departRange" min="0" max="47" value="0" style="width:100%" aria-label="Departure time in hours from now">
+    <div class="depart-ends" aria-hidden="true"><span>Now</span><span>+47h</span></div>
     <div class="srow"><button id="departMinus" style="flex:1" aria-label="One hour earlier">− 1 hour</button><button id="departPlus" style="flex:1" aria-label="One hour later">+ 1 hour</button></div>
     <div id="departResult" aria-live="polite"></div>
   </div>
@@ -469,7 +477,7 @@ html,body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;us
     detailsHtml += '<p class="disclaimer">This is a weather guide, not a road check. Check the road yourself before you ride.</p>';
     // The detail window below the verdict word starts collapsed and is
     // expandable, on every verdict level. The word itself stays visible.
-    html += `<button id="verdictToggle" class="care-toggle" aria-expanded="false" aria-controls="verdictDetails"><span id="verdictToggleIcon">▸</span><small id="verdictToggleLabel">expand</small></button>`;
+    html += `<button id="verdictToggle" class="care-toggle" aria-expanded="false" aria-controls="verdictDetails"><span id="verdictToggleIcon">▸</span><span>Why this verdict</span><small id="verdictToggleLabel">expand</small></button>`;
     html += `<div id="verdictDetails" hidden>${detailsHtml}</div>`;
     v.innerHTML = html;
     const verdictToggle = document.getElementById('verdictToggle');
